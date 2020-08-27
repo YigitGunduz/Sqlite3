@@ -1,0 +1,45 @@
+import sqlite3 as sql
+database_ad =input("Database Adı Giriniz")
+sifrelidatabase = ["databesse.db"]
+a = sifrelidatabase[0]
+if a == database_ad:
+    kullaniciad1 =input("Kullanıcı Adı Giriniz")
+    sifre1 =input("Şifreyi Giriniz")
+    databasecon1 = sql.connect(database_ad)
+    databasecon1.cursor()
+    asd =databasecon1.execute("SELECT * FROM sifre WHERE sifre = ? AND kullaniciad = ?", (sifre1, kullaniciad1))
+    nn = asd.fetchall()
+    if nn:
+        for i in nn:
+            while True:
+                print("Hoşgeldiniz")
+                islem =input("Ne İşlem Yapıcaksınız ?"
+                         "\nTabloya Veri Giricem / 1"
+                         "\nDatabase Şifre Değiştiricem / 2"
+                         "\nÇıkış / 3"
+                         "")
+
+
+                if islem == "1":
+                    databasecon = sql.connect(database_ad)
+                    databasecon.cursor()
+                    geriordevam =input("Geri Çıkmak İçin 'geri' yazınız işleme devam etmek için 'devam' yazınız")
+                    if geriordevam == "geri":
+                        continue
+                    elif geriordevam == "devam":
+                        bilgiler1 = int(input("1. Bilgiyi Giriniz(Ogr No)"))
+                        bilgiler2 = input("1. Bilgiyi Giriniz(Ogr Adi)")
+                        bilgiler3 = input("1. Bilgiyi Giriniz(Ogr Soyadi)")
+                        bilgiler4 = str(input("1. Bilgiyi Giriniz(Ogr Sube)"))
+                        databasecon.execute("""INSERT INTO ogrenciler VALUES(?,?,?,?) """, (bilgiler1, bilgiler2, bilgiler3, bilgiler4))
+                        databasecon.commit()
+                        databasecon.close()
+                elif islem == "3":
+                    break
+                elif islem == "2":
+                    yenisifre = input("Yeni Şifreyi Giriniz")
+                    databasecon3 = sql.connect(database_ad)
+                    databasecon3.cursor()
+                    databasecon3.execute("""UPDATE sifre SET sifre = ? WHERE sifre = ? """, (yenisifre,sifre1))
+                    databasecon3.commit()
+                    databasecon3.close()
